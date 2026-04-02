@@ -85,7 +85,7 @@ In Lab 5B (Part 2) you will complete the other two components: TaskList, and New
    - Set the Vue.js version to `3.x`
    - Enable history mode for router
 
-8. Click `Create Project`
+8. Click `Create Project`z/\
 
 9. You should now be looking at [http://localhost:8000/dashboard](http://localhost:8000/dashboard)
 
