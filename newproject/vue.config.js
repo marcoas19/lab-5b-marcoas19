@@ -5,5 +5,11 @@ module.exports = defineConfig({
   pwa: {
     name: 'Lab 5A',
     themeColor: '#2871C7'
+  },
+
+  pluginOptions: {
+    vuetify: {
+			// https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
+		}
   }
 })
