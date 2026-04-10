@@ -26,7 +26,7 @@ export default {
 
   async mounted() {
     try {
-      const response = await fetch('http://marcoas19b.4hx.net:1337/api/v1/user', {
+      const response = await fetch('http://localhost:1337/api/v1/user', {
         credentials: 'include'
       })
 
@@ -42,7 +42,7 @@ export default {
   methods: {
     async logout() {
       try {
-    await fetch('http://marcoas19b.4hx.net:1337/api/v1/auth/logout', {
+    await fetch('http://localhost:1337/api/v1/auth/logout', {
         method: 'GET',
         credentials: 'include'
     })

@@ -25,7 +25,7 @@ export default {
 
   methods: {
     login() {
-      window.location.href = 'http://marcoas19b.4hx.net:1337/api/v1/auth/google'
+      window.location.href = 'http://localhost:1337/api/v1/auth/google'
     }
   }
 }
