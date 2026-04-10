@@ -5,17 +5,17 @@ import { authenticated } from '@/util'
 
 const checkAuth = async (to, from, next) => {
   try {
-    if (await authenticated()) next()
-    else next({
-      path: '/login',
-      replace: true
-    })
+    const ok = await authenticated()
+    console.log('AUTH CHECK RESULT:', ok)
+
+    if (ok) {
+      next()
+    } else {
+      next('/login')
+    }
   } catch (error) {
-    console.error(error.message)
-    next({
-      path: '/login',
-      replace: true
-    })
+    console.error('ROUTER AUTH ERROR:', error)
+    next('/login')
   }
 }
 
@@ -24,8 +24,7 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
-    beforeEnter: checkAuth,
-    props: true
+    beforeEnter: checkAuth
   },
   {
     path: '/login',

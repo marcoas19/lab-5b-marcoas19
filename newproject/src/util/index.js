@@ -1,15 +1,15 @@
-export const authenticated = async () => {
+export async function authenticated() {
   try {
     const response = await fetch('http://marcoas19b.4hx.net:1337/api/v1/status', {
       credentials: 'include'
     })
 
     const data = await response.json()
-    console.log('STATUS RESPONSE:', data)
+    console.log('STATUS DATA:', data)
 
-    return response.ok && !!data.user
+    return !!(data.ok && data.user)
   } catch (error) {
-    console.error('authenticated() error:', error)
+    console.error('AUTH ERROR:', error)
     return false
   }
 }
