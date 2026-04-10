@@ -31,8 +31,7 @@ export default {
     <div v-if="user" style="display: flex; align-items: center; gap: 10px;">
       
       <img
-        v-if="user.photo"
-        :src="user.photo"
+        :src="user.photo || 'https://via.placeholder.com/40'"
         alt="Profile photo"
         style="width: 36px; height: 36px; border-radius: 50%;"
       />
