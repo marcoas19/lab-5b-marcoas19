@@ -1,6 +1,6 @@
 export async function authenticated() {
   try {
-    const response = await fetch('http://marcoas19b.4hx.net:1337/api/v1/status', {
+    const response = await fetch('http://localhost:1337/api/v1/status', {
       credentials: 'include'
     })
 
