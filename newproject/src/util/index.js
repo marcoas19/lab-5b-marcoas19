@@ -13,3 +13,16 @@ export async function authenticated() {
     return false
   }
 }
+
+export async function getStatus() {
+  try {
+    const response = await fetch('http://localhost:1337/api/v1/status', {
+      credentials: 'include'
+    })
+
+    return await response.json()
+  } catch (error) {
+    console.error('STATUS ERROR:', error)
+    return { ok: false, user: null }
+  }
+}
