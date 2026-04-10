@@ -1,17 +1,17 @@
 <template>
   <v-app>
-    <v-app-bar color="primary">
-      <v-app-bar-title>Lab 5A</v-app-bar-title>
-    </v-app-bar>
-
-    <v-main>
-      <router-view />
-    </v-main>
+    <AppBar />
+    <router-view />
   </v-app>
 </template>
 
 <script>
+import AppBar from './components/AppBar.vue'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    AppBar
+  }
 }
 </script>

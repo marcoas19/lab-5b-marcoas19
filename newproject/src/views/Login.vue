@@ -1,17 +1,31 @@
 <template>
-  <div class="login">
-    <h1>Login</h1>
-    <p>Please sign in with Google to continue.</p>
-    <a :href="loginUrl">Sign in with Google</a>
-  </div>
+  <v-container class="fill-height d-flex align-center justify-center">
+    <v-card class="pa-6" width="400">
+      <v-card-title class="text-h5 mb-4">Login</v-card-title>
+
+      <v-btn block color="primary" @click="login">
+        Login with Google
+      </v-btn>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
+import { authenticated } from '@/util'
+
 export default {
   name: 'LoginView',
-  data() {
-    return {
-      loginUrl: 'http://marcoas19b.4hx.net:1337/api/v1/auth/google'
+
+  async mounted() {
+    const ok = await authenticated()
+    if (ok) {
+      this.$router.push('/')
+    }
+  },
+
+  methods: {
+    login() {
+      window.location.href = 'http://marcoas19b.4hx.net:1337/api/v1/auth/google'
     }
   }
 }
