@@ -1,6 +1,6 @@
 export async function authenticated() {
   try {
-    const response = await fetch('http://localhost:1337/api/v1/status', {
+    const response = await fetch('/api/v1/status', {
       credentials: 'include'
     })
 
@@ -16,7 +16,7 @@ export async function authenticated() {
 
 export async function getStatus() {
   try {
-    const response = await fetch('http://localhost:1337/api/v1/status', {
+    const response = await fetch('/api/v1/status', {
       credentials: 'include'
     })
 
