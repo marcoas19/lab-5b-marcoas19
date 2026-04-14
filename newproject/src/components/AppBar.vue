@@ -1,26 +1,3 @@
-<script>
-export default {
-  props: {
-    user: Object
-  },
-
-  methods: {
-    async logout() {
-      try {
-        await fetch('/api/v1/auth/logout', {
-          method: 'GET',
-          credentials: 'include'
-        })
-      } catch (error) {
-        console.error('LOGOUT ERROR:', error)
-      }
-
-      this.$router.push('/login')
-    }
-  }
-}
-</script>
-
 <template>
   <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #ccc;">
     <div>
