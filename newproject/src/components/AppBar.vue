@@ -10,9 +10,7 @@
         alt="Profile photo"
         style="width: 36px; height: 36px; border-radius: 50%;"
       />
-
       <span>{{ user.userName }}</span>
-
       <button @click="logout">LOGOUT</button>
     </div>
   </div>
@@ -35,7 +33,7 @@ export default {
         console.error('LOGOUT ERROR:', error)
       }
 
-      this.$router.push('/login')
+      window.location.href = '/login'
     }
   }
 }
