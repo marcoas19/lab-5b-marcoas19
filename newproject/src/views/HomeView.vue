@@ -1,122 +1,62 @@
 <template>
-  <v-container>
-    <h1>Tasks Home</h1>
-
-    <NewTaskForm
-      :form="form"
-      :submitForm="submitForm"
-    />
-
+  <v-container class="mt-4">
+    <NewTaskForm @task-created="addTask" />
     <TaskList
       :tasks="tasks"
-      :updateTask="updateTask"
-      :deleteTask="deleteTask"
+      @task-updated="updateTask"
+      @task-deleted="removeTask"
     />
   </v-container>
 </template>
 
 <script>
-import TaskList from '@/components/TaskList.vue'
 import NewTaskForm from '@/components/NewTaskForm.vue'
+import TaskList from '@/components/TaskList.vue'
 
 export default {
   name: 'HomeView',
-
   components: {
-    TaskList,
-    NewTaskForm
+    NewTaskForm,
+    TaskList
   },
-
   data() {
     return {
-      tasks: [],
-      form: {
-        text: '',
-        date: ''
-      }
+      tasks: []
     }
   },
-
   methods: {
     async loadTasks() {
       try {
-        const res = await fetch('/api/v1/tasks', {
+        const response = await fetch(`${process.env.VUE_APP_API_ORIGIN}/api/v1/tasks`, {
           credentials: 'include'
         })
 
-        if (!res.ok) throw new Error('Error loading tasks')
+        if (!response.ok) {
+          throw new Error('Failed to load tasks')
+        }
 
-        const data = await res.json()
-        this.tasks = Array.isArray(data) ? data : (data.tasks || [])
-      } catch (err) {
-        console.error(err)
+        const data = await response.json()
+        this.tasks = data
+      } catch (error) {
+        console.error('LOAD TASKS ERROR:', error)
       }
     },
 
-    async submitForm(form) {
-      try {
-        const res = await fetch('/api/v1/tasks', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          credentials: 'include',
-          body: JSON.stringify({
-            text: form.text,
-            date: form.date,
-            done: false
-          })
-        })
+    addTask(task) {
+      this.tasks.push(task)
+    },
 
-        if (!res.ok) throw new Error('Error creating task')
-
-        this.form.text = ''
-        this.form.date = ''
-        await this.loadTasks()
-      } catch (err) {
-        console.error(err)
+    updateTask(updatedTask) {
+      const index = this.tasks.findIndex(task => task._id === updatedTask._id)
+      if (index !== -1) {
+        this.tasks[index] = updatedTask
       }
     },
 
-    async updateTask(task) {
-      try {
-        const res = await fetch(`/api/v1/tasks/${task._id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          credentials: 'include',
-          body: JSON.stringify({
-            text: task.text,
-            date: task.date,
-            done: !task.done
-          })
-        })
-
-        if (!res.ok) throw new Error('Error updating task')
-
-        await this.loadTasks()
-      } catch (err) {
-        console.error(err)
-      }
-    },
-
-    async deleteTask(task) {
-      try {
-        const res = await fetch(`/api/v1/tasks/${task._id}`, {
-          method: 'DELETE',
-          credentials: 'include'
-        })
-
-        if (!res.ok) throw new Error('Error deleting task')
-
-        await this.loadTasks()
-      } catch (err) {
-        console.error(err)
-      }
+    removeTask(taskId) {
+      this.tasks = this.tasks.filter(task => task._id !== taskId)
     }
   },
-
   mounted() {
     this.loadTasks()
   }

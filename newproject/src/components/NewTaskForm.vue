@@ -1,38 +1,57 @@
 <template>
-  <v-form @submit.prevent="submitForm(form)">
-    <v-text-field
-      v-model="form.text"
-      label="New Task"
-      required
-    />
+  <v-card class="mb-4">
+    <v-card-title>New Task</v-card-title>
 
-    <v-text-field
-      v-model="form.date"
-      label="Due Date"
-    />
+    <v-card-text>
+      <v-text-field
+        v-model="text"
+        label="Task"
+        @keyup.enter="submitTask"
+      ></v-text-field>
+    </v-card-text>
 
-    <v-btn
-      type="submit"
-      color="primary"
-      class="mt-2"
-    >
-      Add Task
-    </v-btn>
-  </v-form>
+    <v-card-actions>
+      <v-btn color="primary" @click="submitTask">Add Task</v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
 export default {
   name: 'NewTaskForm',
+  emits: ['task-created'],
+  data() {
+    return {
+      text: ''
+    }
+  },
+  methods: {
+    async submitTask() {
+      if (!this.text.trim()) return
 
-  props: {
-    form: {
-      type: Object,
-      required: true
-    },
-    submitForm: {
-      type: Function,
-      required: true
+      try {
+        const response = await fetch(`${process.env.VUE_APP_API_ORIGIN}/api/v1/tasks`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            text: this.text,
+            done: false
+          })
+        })
+
+        if (!response.ok) {
+          throw new Error('Failed to create task')
+        }
+
+        const task = await response.json()
+        this.$emit('task-created', task)
+        this.text = ''
+      } catch (error) {
+        console.error('CREATE TASK ERROR:', error)
+      }
     }
   }
 }

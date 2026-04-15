@@ -1,63 +1,94 @@
 <template>
-  <div>
-    <v-card
-      v-for="task in tasks"
-      :key="task._id"
-      class="mb-4"
-    >
-      <v-card-text class="d-flex justify-space-between align-center">
-        <div>
-          <div>
-            <strong>{{ task.text }}</strong>
-          </div>
-          <div v-if="task.date">
-            {{ task.date }}
-          </div>
-          <div>
-            Status: {{ task.done ? 'Done' : 'Not done' }}
-          </div>
-        </div>
+  <v-card>
+    <v-card-title>My Tasks</v-card-title>
 
-        <div class="d-flex ga-2">
-          <v-btn
-            color="success"
-            @click="updateTask(task)"
-          >
-            {{ task.done ? 'Undo' : 'Done' }}
-          </v-btn>
+    <v-list v-if="tasks.length">
+      <v-list-item
+        v-for="task in tasks"
+        :key="task._id"
+      >
+        <template #prepend>
+          <v-checkbox-btn
+            :model-value="task.done"
+            @click="toggleTask(task)"
+          ></v-checkbox-btn>
+        </template>
 
+        <v-list-item-title
+          :style="{ textDecoration: task.done ? 'line-through' : 'none' }"
+        >
+          {{ task.text }}
+        </v-list-item-title>
+
+        <template #append>
           <v-btn
-            color="error"
-            @click="deleteTask(task)"
+            color="red"
+            variant="text"
+            @click="deleteTask(task._id)"
           >
             Delete
           </v-btn>
-        </div>
-      </v-card-text>
-    </v-card>
+        </template>
+      </v-list-item>
+    </v-list>
 
-    <div v-if="tasks.length === 0">
+    <v-card-text v-else>
       No tasks yet.
-    </div>
-  </div>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
 export default {
   name: 'TaskList',
-
   props: {
     tasks: {
       type: Array,
       required: true
+    }
+  },
+  emits: ['task-updated', 'task-deleted'],
+  methods: {
+    async toggleTask(task) {
+      try {
+        const response = await fetch(`${process.env.VUE_APP_API_ORIGIN}/api/v1/tasks/${task._id}`, {
+          method: 'PUT',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            text: task.text,
+            done: !task.done
+          })
+        })
+
+        if (!response.ok) {
+          throw new Error('Failed to update task')
+        }
+
+        const updatedTask = await response.json()
+        this.$emit('task-updated', updatedTask)
+      } catch (error) {
+        console.error('UPDATE TASK ERROR:', error)
+      }
     },
-    updateTask: {
-      type: Function,
-      required: true
-    },
-    deleteTask: {
-      type: Function,
-      required: true
+
+    async deleteTask(taskId) {
+      try {
+        const response = await fetch(`${process.env.VUE_APP_API_ORIGIN}/api/v1/tasks/${taskId}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        })
+
+        if (!response.ok) {
+          throw new Error('Failed to delete task')
+        }
+
+        this.$emit('task-deleted', taskId)
+      } catch (error) {
+        console.error('DELETE TASK ERROR:', error)
+      }
     }
   }
 }
