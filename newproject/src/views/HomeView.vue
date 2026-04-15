@@ -1,14 +1,3 @@
-<template>
-  <v-container class="mt-4">
-    <NewTaskForm @task-created="addTask" />
-    <TaskList
-      :tasks="tasks"
-      @task-updated="updateTask"
-      @task-deleted="removeTask"
-    />
-  </v-container>
-</template>
-
 <script>
 import NewTaskForm from '@/components/NewTaskForm.vue'
 import TaskList from '@/components/TaskList.vue'
@@ -64,12 +53,7 @@ export default {
     }
   },
   mounted() {
-    console.log("FORCED MODE 🔥")
-
-    this.tasks = [
-      { _id: 1, text: "Do homework", done: false },
-      { _id: 2, text: "Study Vue", done: true }
-    ]
+    this.loadTasks()
   }
 }
 </script>
