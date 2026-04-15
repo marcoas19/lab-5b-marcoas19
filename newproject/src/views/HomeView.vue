@@ -29,7 +29,7 @@ export default {
       console.log("LOADING TASKS 🚀")
 
       try {
-        const response = await fetch('/api/v1/tasks', {
+        const response = await fetch(`${process.env.VUE_APP_API_ORIGIN}/api/v1/tasks`, {
           credentials: 'include'
         })
 
@@ -64,8 +64,12 @@ export default {
     }
   },
   mounted() {
-    console.log("HOME LOADED 🔥")
-    this.loadTasks()
+    console.log("FORCED MODE 🔥")
+
+    this.tasks = [
+      { _id: 1, text: "Do homework", done: false },
+      { _id: 2, text: "Study Vue", done: true }
+    ]
   }
 }
 </script>

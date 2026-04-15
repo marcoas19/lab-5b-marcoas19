@@ -51,7 +51,7 @@ export default {
   methods: {
     async toggleTask(task) {
       try {
-       const response = await fetch(`/api/v1/tasks/${task._id}`, {
+       const response = await fetch(`${process.env.VUE_APP_API_ORIGIN}/api/v1/tasks/${task._id}`, {
   method: 'PUT',
   credentials: 'include',
   headers: {
@@ -76,7 +76,7 @@ export default {
 
     async deleteTask(taskId) {
       try {
-        const response = await fetch(`/api/v1/tasks/${taskId}`, {
+        const response = await fetch(`${process.env.VUE_APP_API_ORIGIN}/api/v1/tasks/${taskId}`, {
   method: 'DELETE',
   credentials: 'include'
 })

@@ -25,7 +25,7 @@ export default {
   methods: {
     async logout() {
       try {
-        await fetch('/api/v1/auth/logout', {
+        await fetch(`${process.env.VUE_APP_API_ORIGIN}/api/v1/auth/logout`, {
           method: 'GET',
           credentials: 'include'
         })

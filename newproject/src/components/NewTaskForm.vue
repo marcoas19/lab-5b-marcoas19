@@ -30,7 +30,7 @@ export default {
       if (!this.text.trim()) return
 
       try {
-        const response = await fetch('/api/v1/tasks', {
+        const response = await fetch(`${process.env.VUE_APP_API_ORIGIN}/api/v1/tasks`, {
   method: 'POST',
   credentials: 'include',
   headers: {

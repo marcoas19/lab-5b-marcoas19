@@ -16,7 +16,7 @@ export async function authenticated() {
 
 export async function getStatus() {
   try {
-    const response = await fetch('/api/v1/status', {
+    const response = await fetch(`${process.env.VUE_APP_API_ORIGIN}/api/v1/status`, {
       credentials: 'include'
     })
 
