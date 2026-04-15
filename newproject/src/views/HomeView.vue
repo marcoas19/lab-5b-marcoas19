@@ -26,19 +26,25 @@ export default {
   },
   methods: {
     async loadTasks() {
+      console.log("LOADING TASKS 🚀")
+
       try {
         const response = await fetch(`${process.env.VUE_APP_API_ORIGIN}/api/v1/tasks`, {
           credentials: 'include'
         })
+
+        console.log("RESPONSE:", response)
 
         if (!response.ok) {
           throw new Error('Failed to load tasks')
         }
 
         const data = await response.json()
+        console.log("DATA:", data)
+
         this.tasks = data
       } catch (error) {
-        console.error('LOAD TASKS ERROR:', error)
+        console.error("LOAD TASKS ERROR:", error)
       }
     },
 
@@ -58,6 +64,7 @@ export default {
     }
   },
   mounted() {
+    console.log("HOME LOADED 🔥")
     this.loadTasks()
   }
 }
