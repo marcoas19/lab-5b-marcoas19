@@ -30,17 +30,17 @@ export default {
       if (!this.text.trim()) return
 
       try {
-        const response = await fetch(`${process.env.VUE_APP_API_ORIGIN}/api/v1/tasks`, {
-          method: 'POST',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            text: this.text,
-            done: false
-          })
-        })
+        const response = await fetch('/api/v1/tasks', {
+  method: 'POST',
+  credentials: 'include',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    text: this.text,
+    done: false
+  })
+})
 
         if (!response.ok) {
           throw new Error('Failed to create task')

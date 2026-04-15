@@ -29,7 +29,7 @@ export default {
       console.log("LOADING TASKS 🚀")
 
       try {
-        const response = await fetch(`${process.env.VUE_APP_API_ORIGIN}/api/v1/tasks`, {
+        const response = await fetch('/api/v1/tasks', {
           credentials: 'include'
         })
 
