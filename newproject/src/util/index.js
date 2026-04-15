@@ -1,15 +1,12 @@
 export async function authenticated() {
   try {
-    const response = await fetch('/api/v1/status', {
+    const response = await fetch(`${process.env.VUE_APP_API_ORIGIN}/api/v1/status`, {
       credentials: 'include'
     })
 
     const data = await response.json()
-    console.log('STATUS DATA:', data)
-
     return !!(data.ok && data.user)
   } catch (error) {
-    console.error('AUTH ERROR:', error)
     return false
   }
 }
@@ -22,7 +19,6 @@ export async function getStatus() {
 
     return await response.json()
   } catch (error) {
-    console.error('STATUS ERROR:', error)
     return { ok: false, user: null }
   }
 }
