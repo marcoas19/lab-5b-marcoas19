@@ -1,3 +1,14 @@
+<template>
+  <v-container class="mt-4">
+    <NewTaskForm @task-created="addTask" />
+    <TaskList
+      :tasks="tasks"
+      @task-updated="updateTask"
+      @task-deleted="removeTask"
+    />
+  </v-container>
+</template>
+
 <script>
 import NewTaskForm from '@/components/NewTaskForm.vue'
 import TaskList from '@/components/TaskList.vue'
@@ -15,25 +26,25 @@ export default {
   },
   methods: {
     async loadTasks() {
-      console.log("LOADING TASKS 🚀")
+      console.log('LOADING TASKS 🚀')
 
       try {
         const response = await fetch(`${process.env.VUE_APP_API_ORIGIN}/api/v1/tasks`, {
           credentials: 'include'
         })
 
-        console.log("RESPONSE:", response)
+        console.log('RESPONSE:', response)
 
         if (!response.ok) {
           throw new Error('Failed to load tasks')
         }
 
         const data = await response.json()
-        console.log("DATA:", data)
+        console.log('DATA:', data)
 
         this.tasks = data
       } catch (error) {
-        console.error("LOAD TASKS ERROR:", error)
+        console.error('LOAD TASKS ERROR:', error)
       }
     },
 
